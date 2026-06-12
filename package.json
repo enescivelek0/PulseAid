@@ -1,0 +1,22 @@
+{
+  "name": "pulse-aid",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Digital First Aid Visualizer",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "firstaid",
+    "pwa",
+    "emergency"
+  ],
+  "author": "PulseAid Medical Tech",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.2.0"
+  }
+}

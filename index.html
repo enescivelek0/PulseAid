@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseAid - Dijital Acil İlk Yardım Rehberi / Digital First Aid Visualizer</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="PulseAid, acil durumlarda (kanama, boğulma, yanık, kalp krizi) hızlı karar vermenizi sağlayan ve adımları ritmik görsel/işitsel metronomla gösteren çevrimdışı uyumlu ilk yardım rehberidir.">
+  <meta name="keywords" content="ilk yardım, cpr, suni solunum, heimlich manevrası, kanama durdurma, yanık müdahalesi, pulseaid, first aid visualizer">
+  <meta name="author" content="PulseAid Medical Tech">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS Animations & Typography overrides -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Tailwind Config Customizations -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#182746',
+            crimson: '#C3323A',
+            crimsonDark: '#9F262C',
+            coral: '#D8927A',
+            mutedRed: '#663130',
+            neonGreen: '#10B981',
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+          },
+          backdropBlur: {
+            xs: '2px',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-navy min-h-screen flex flex-col justify-between selection:bg-crimson/30 selection:text-white pb-24 md:pb-0">
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-50 w-full border-b border-white/10 bg-navy/60 backdrop-blur-xl transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo (PulseAid) -->
+      <a href="index.html" onclick="event.preventDefault(); navigateToHome();" class="flex items-center space-x-3 group focus:outline-none" aria-label="PulseAid Home">
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-crimson/10 border border-crimson/30 group-hover:bg-crimson/20 transition duration-300">
+          <svg class="w-6 h-6 text-crimson animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+          <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-neonGreen border-2 border-navy rounded-full"></span>
+        </div>
+        <span class="text-2xl font-black text-white tracking-tight group-hover:text-coral transition duration-300">
+          Pulse<span class="text-crimson">Aid</span>
+        </span>
+      </a>
+
+      <!-- Navigation Actions -->
+      <div class="flex items-center space-x-3 md:space-x-4">
+        <!-- GPS Coordinates Display -->
+        <div id="gps-indicator" class="hidden sm:block"></div>
+
+        <!-- Language Switcher Pill -->
+        <div class="glass-panel p-1 rounded-full flex items-center shadow-inner relative" role="group" aria-label="Language Selector">
+          <button id="lang-tr" class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 focus:outline-none">
+            TR
+          </button>
+          <button id="lang-en" class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 focus:outline-none">
+            EN
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </header>
+
+  <!-- GPS Mobile Display -->
+  <div class="sm:hidden w-full px-4 pt-4 flex justify-center">
+    <div id="gps-indicator-mobile"></div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow flex items-center justify-center py-8">
+    <div id="app-container" class="w-full max-w-6xl mx-auto px-4 relative">
+      <div class="flex justify-center items-center py-20">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-crimson"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Emergency Call Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a id="emergency-dialer" href="tel:112" class="flex items-center bg-crimson hover:bg-crimsonDark text-white px-5 py-4 rounded-full shadow-3xl hover:shadow-[0_0_25px_rgba(195,50,58,0.6)] border border-white/20 active:scale-95 transition-all duration-300">
+      <span class="relative flex h-3 w-3 mr-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+      </span>
+      <span class="font-extrabold text-lg tracking-wider">📞 112 ACİL ARA</span>
+    </a>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="w-full border-t border-white/5 py-6 bg-black/10">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-neonGreen"></span>
+        <span class="font-semibold text-gray-400" id="offline-status">PulseAid PWA Offline Ready</span>
+      </div>
+      <div class="text-center md:text-right font-medium">
+        &copy; 2026 PulseAid. Dijital İlk Yardım Görselleştirici. Acil durumlarda profesyonel tıbbi yardım (112 / 911) çağırın.
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Main Entry Script (Module-based via Vite) -->
+  <script type="module" src="assets/js/app.js"></script>
+
+  <!-- Service Worker PWA Setup -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('PulseAid Service Worker registered successfully: ', registration.scope);
+            document.getElementById('offline-status').textContent = 'PulseAid PWA Offline Ready';
+          })
+          .catch(err => {
+            console.warn('PulseAid Service Worker registration failed: ', err);
+            document.getElementById('offline-status').textContent = 'PulseAid Local Mode';
+          });
+      });
+    }
+
+    // Handle offline status color indicator
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    function updateOnlineStatus() {
+      const statusText = document.getElementById('offline-status');
+      const indicator = statusText.previousElementSibling;
+      if (navigator.onLine) {
+        indicator.className = 'w-2.5 h-2.5 rounded-full bg-neonGreen';
+        statusText.textContent = 'PulseAid Online - Offline Ready';
+      } else {
+        indicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
+        statusText.textContent = 'PulseAid Running Offline';
+      }
+    }
+
+    // Sync mobile GPS container
+    const observer = new MutationObserver(() => {
+      const dest = document.getElementById('gps-indicator-mobile');
+      const src = document.getElementById('gps-indicator');
+      if (dest && src) {
+        dest.innerHTML = src.innerHTML;
+      }
+    });
+    observer.observe(document.getElementById('gps-indicator'), { childList: true, subtree: true });
+  </script>
+</body>
+</html>
