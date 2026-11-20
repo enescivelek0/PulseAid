@@ -1,38 +1,146 @@
-# PulseAid 🩸
+<div align="center">
 
-**PulseAid** is a client-side, zero-friction, database-less progressive web application (PWA) designed for instant emergency first-aid visualization. 
+<img src="public/icon.svg" width="88" alt="PulseAid logo">
 
-Created with a corporate medical-tech color palette, high-contrast typography scaled for readability from a distance, and built-in offline synchronization, it serves as a companion in high-stress situations.
+# PulseAid
 
-## Key Features
+**Acil durumlarda adım adım, görsel ve sesli ilk yardım rehberi**
+*Step-by-step visual & voice first-aid guide for emergencies*
 
-- **📍 GPS Locator Widget**: Instantly displays your latitude, longitude, and accuracy at the top of the header so you can read them to emergency dispatchers (112/911).
-- **🔊 Text-To-Speech (TTS) Voice Guidance**: A voice assistant powered by the Web Speech API reads out instructions step-by-step so your eyes can stay focused on the patient.
-- **📞 One-Tap Emergency Dialer**: Floating high-visibility red dialer button dynamically targets Turkish Emergency Service (`112`) or international standard (`911`) based on active language context.
-- **🔊 Web Audio API Metronome**: Custom click generators sync visually and audibly to correct physical compression rates (e.g., 105 Compressions/Min for CPR) fully client-side without downloading external files.
-- **⚡ Offline-First PWA Cache Policy**: Uses Service Workers to intercept, cache, and serve all local files (scripts, icons, markup) and remote modules (Tailwind CDN, Google Fonts) so the app loads instantly in remote areas without internet coverage.
-- **🔄 URL State Synchronization**: All choices, active steps, and languages are synced dynamically to the query string (e.g. `?lang=tr&case=burns&choice=chemical&step=2`) for immediate bookmarking, deep-linking, or sharing.
+[![Live Demo](https://img.shields.io/badge/Canlı%20Demo-pulse--aid--pearl.vercel.app-E0414A?style=for-the-badge&logo=vercel&logoColor=white)](https://pulse-aid-pearl.vercel.app/)
 
-## Tech Stack
+![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![JavaScript](https://img.shields.io/badge/Vanilla_JS-ES_Modules-F7DF1E?logo=javascript&logoColor=black)
+![PWA](https://img.shields.io/badge/PWA-Offline_Ready-5A0FC8?logo=pwa&logoColor=white)
 
-- **Core**: Vanilla HTML5, ES6 Modules Javascript
-- **Styles**: Custom CSS Keyframes, CSS variables, Glassmorphic styling, Tailwind CSS CDN
-- **Bundler & Server**: Vite
-- **PWA**: Native Service Worker API
+### 🔗 Canlı: **https://pulse-aid-pearl.vercel.app/**
 
-## Local Development
+</div>
 
-Install packages:
+---
+
+## 🇹🇷 Hakkında
+
+**PulseAid**, kanama, boğulma, yanık ve kalp krizi / bilinç kaybı gibi acil durumlarda kullanıcıyı
+basit sorularla doğru müdahaleye yönlendiren, adımları **büyük okunabilir metin**, **animasyon**,
+**ritim metronomu** ve **sesli asistan** ile anlatan, kurulum gerektirmeyen ve **çevrimdışı çalışan**
+bir web uygulamasıdır (PWA).
+
+> ⚠️ **Uyarı:** PulseAid bir bilgilendirme rehberidir, profesyonel tıbbi yardımın yerini tutmaz.
+> Acil durumda **önce 112'yi arayın.**
+
+### ✨ Özellikler
+
+| | Özellik | Açıklama |
+|---|---|---|
+| 🧭 | **Karar ağacı** | 4 acil durum kategorisi → durumu netleştiren tek soru → adım adım müdahale |
+| 🫀 | **CPR metronomu** | Web Audio API ile dakikada 105 vuruş; görsel nabız ışığı + isteğe bağlı ses |
+| ⏱️ | **Zamanlayıcı** | Yanıkta 10–20 dk soğutma için ilerleme çubuklu geri sayım, bitince ses + titreşim |
+| 🔊 | **Sesli asistan** | Web Speech API ile adımları Türkçe / İngilizce okur |
+| 📍 | **GPS konumu** | Koordinatları gösterir, dokununca panoya kopyalar (112'ye konum bildirmek için) |
+| 📞 | **Tek dokunuşla arama** | Her ekranda sabit acil arama butonu (TR: 112, EN: 911) |
+| 🔆 | **Ekran açık kalır** | Talimat ekranında Screen Wake Lock API ile ekran kararmaz |
+| 📴 | **Çevrimdışı** | Service Worker + Web App Manifest; ana ekrana eklenebilir |
+| 🔗 | **Paylaşılabilir URL** | Dil, durum ve adım URL'de tutulur: `?lang=tr&case=burns&choice=heat&step=1` |
+| 🌐 | **İki dil** | Türkçe ve İngilizce, anlık geçiş (çalışan zamanlayıcı korunur) |
+| 📱 | **Responsive & erişilebilir** | Mobil öncelikli tasarım, klavye odak halkaları, `prefers-reduced-motion` desteği |
+
+### 🛠️ Teknolojiler
+
+- **Vanilla JavaScript** (ES Modules) — framework yok, ~14 KB gzip
+- **Tailwind CSS 3** (PostCSS ile derlenir, CDN yok)
+- **Vite 5** — geliştirme sunucusu ve production build
+- **Web API'leri:** Web Audio, Web Speech, Geolocation, Screen Wake Lock, Clipboard, Vibration, Service Worker
+- **Vercel** — hosting & otomatik deploy
+
+### 🚀 Kurulum
+
 ```bash
+git clone https://github.com/enescivelek0/PulseAid.git
+cd PulseAid
 npm install
+npm run dev       # http://localhost:8080
+npm run build     # dist/ klasörüne production build
+npm run preview   # build'i yerelde önizle
 ```
 
-Start the Vite local development server:
-```bash
-npm run dev
+### 📁 Proje Yapısı
+
+```
+PulseAid/
+├── index.html              # Uygulama kabuğu (header, footer, acil arama butonu)
+├── assets/
+│   ├── css/style.css       # Tailwind girişi + özel animasyonlar
+│   └── js/
+│       ├── app.js          # Durum yönetimi, yönlendirme, ekranlar, ses/zamanlayıcı/GPS
+│       ├── data.js         # TR/EN ilk yardım içerikleri (karar ağacı ve adımlar)
+│       └── visuals.js      # Kategori ikonları ve adım animasyonları (SVG)
+├── public/
+│   ├── sw.js               # Service Worker (çevrimdışı önbellek)
+│   ├── manifest.webmanifest
+│   └── icon.svg
+├── tailwind.config.js
+├── postcss.config.js
+├── vite.config.js
+└── vercel.json             # Önbellek başlıkları
 ```
 
-Build static bundle:
-```bash
-npm run build
+### ➕ Yeni bir acil durum eklemek
+
+`assets/js/data.js` içinde hem `tr` hem `en` altına aynı anahtarla bir `cases` girdisi ekleyin:
+
+```js
+my_case: {
+  title: '...', icon: 'bleeding', description: '...', question: '...',
+  options: {
+    option_a: { label: '...', steps: [{ text: '...', animation: 'pressure-pulse', rate: 105 }] },
+    option_b: { label: '...', steps: [{ text: '...', animation: 'wash-rinse', timer: 600 }] }
+  }
+}
 ```
+
+`rate` → metronom (BPM), `timer` → saniye cinsinden geri sayım. Kullanılabilir animasyonlar `visuals.js` içindedir.
+
+---
+
+## 🇬🇧 About
+
+**PulseAid** is an install-free, offline-capable PWA that guides bystanders through first aid for
+bleeding, choking, burns and cardiac arrest. Each emergency starts with one clarifying question and
+then shows large, distance-readable steps with animations, a CPR metronome (105 BPM), countdown
+timers, voice read-out, GPS coordinates and a one-tap emergency call button.
+
+**Live:** https://pulse-aid-pearl.vercel.app/
+
+```bash
+npm install && npm run dev
+```
+
+> ⚠️ PulseAid is an informational guide and does not replace professional medical care.
+> In an emergency, call your local emergency number first.
+
+---
+
+## 📝 Değişiklik Günlüğü (v2.0)
+
+- Tailwind CDN kaldırıldı → derlenmiş Tailwind (daha hızlı yükleme, konsol uyarısı yok, gerçek çevrimdışı destek)
+- Service Worker yeniden yazıldı: production build'de var olmayan dosyaları önbelleğe almaya çalıştığı için kurulamıyordu; artık sayfalar için network-first, varlıklar için stale-while-revalidate
+- Web App Manifest + ikon eklendi (ana ekrana eklenebilir)
+- Geçersiz URL parametreleri (bilinmeyen durum, negatif / aşırı adım) güvenle doğrulanıyor
+- GPS her tıklamada yeni izleyici başlatıyordu → tek izleyici; izin hatası gösterimi; koordinat kopyalama
+- Dil değişimi artık çalışan zamanlayıcıyı sıfırlamıyor ve tarayıcı geçmişini kirletmiyor
+- Zamanlayıcı bitince yeniden başlatılabiliyor; sıfırlama metronomu durdurmuyor
+- Tanımsız CSS sınıfları (`shadow-3xl`, `bg-crimson-dark` vb.) düzeltildi
+- Satır içi `onclick` yerine olay delegasyonu; `<html lang>` ve sayfa başlığı dile göre güncelleniyor
+- Yeni kompakt, mobil öncelikli arayüz: adım ilerleme çubuğu, yeni toggle'lar, güvenli alan (notch) desteği
+- Ekran açık kalma (Wake Lock), zamanlayıcı bitişinde titreşim, `prefers-reduced-motion` desteği
+- SEO / Open Graph meta etiketleri
+
+## 👤 Geliştirici
+
+**Enes Civelek** — [@enescivelek0](https://github.com/enescivelek0)
+
+## 📄 Lisans
+
+ISC

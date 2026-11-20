@@ -1,9 +1,8 @@
 {
   "name": "pulse-aid",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Digital First Aid Visualizer",
-  "main": "index.html",
+  "description": "Digital First Aid Guide (PWA)",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,9 +13,13 @@
     "pwa",
     "emergency"
   ],
-  "author": "PulseAid Medical Tech",
+  "author": "Enes Civelek",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
     "vite": "^5.2.0"
-  }
+  },
+  "homepage": "https://pulse-aid-pearl.vercel.app/"
 }
