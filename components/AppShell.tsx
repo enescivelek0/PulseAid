@@ -60,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className={`w-2 h-2 rounded-full ${online ? 'bg-neonGreen' : 'bg-amber-500 animate-pulse'}`} />
               {online ? t.online : t.offline}
             </span>
-            <span>v3.0</span>
+            <span>v3.1</span>
           </div>
         </div>
       </aside>
@@ -126,7 +126,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               <XIcon className="w-5 h-5" />
             </button>
-            <SessionPanel />
+            <div className="pt-10">
+              <SessionPanel />
+            </div>
           </div>
         </div>
       )}

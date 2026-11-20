@@ -89,7 +89,7 @@ export function HomeView() {
                 key={id}
                 href={`/case/${id}`}
                 onClick={() => startSession(id)}
-                className="group relative overflow-hidden rounded-3xl p-5 sm:p-6 bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition duration-300"
+                className="group relative overflow-hidden flex flex-col rounded-3xl p-5 sm:p-6 bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 transition duration-300"
               >
                 <span className={`pointer-events-none absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br ${th.glow} to-transparent blur-2xl opacity-60 group-hover:opacity-100 transition`} />
                 <span className="relative flex items-start gap-4">
@@ -98,12 +98,12 @@ export function HomeView() {
                     className={`shrink-0 grid place-items-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ring-1 ${th.ring} ${th.tile} group-hover:scale-105 transition`}
                   />
                   <span className="min-w-0 flex-1">
-                    <span className="text-[11px] font-bold text-gray-500 tabular-nums">0{i + 1}</span>
+                    <span className="text-[11px] font-bold text-gray-500 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
                     <span className="block text-lg sm:text-2xl font-extrabold text-white leading-tight">{c.title}</span>
                     <span className="block mt-1.5 text-sm sm:text-base text-gray-400 leading-snug">{c.description}</span>
                   </span>
                 </span>
-                <span className="relative mt-5 flex items-center justify-between">
+                <span className="relative mt-auto pt-5 flex items-center justify-between">
                   <span className="flex items-center gap-2 text-xs font-semibold text-gray-400">
                     <span className={`w-1.5 h-1.5 rounded-full ${th.dot}`} />
                     {opts.length} {t.scenarios} · {stepCount} {t.steps}

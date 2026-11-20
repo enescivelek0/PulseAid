@@ -32,7 +32,7 @@ export const UI = {
     scenarios: 'senaryo',
     steps: 'adım',
     how: [
-      ['Durumu seç', 'Kanama, boğulma, yanık veya kalp krizi.'],
+      ['Durumu seç', '10 farklı acil durum: kalp krizinden inmeye, zehirlenmeden kırığa.'],
       ['Soruyu yanıtla', 'Tek soru ile doğru müdahale yolu.'],
       ['Adımları uygula', 'Ritim, zamanlayıcı, sesli rehber ve kayıt.'],
     ],
@@ -98,7 +98,7 @@ export const UI = {
     scenarios: 'scenarios',
     steps: 'steps',
     how: [
-      ['Pick the situation', 'Bleeding, choking, burns or cardiac arrest.'],
+      ['Pick the situation', '10 emergencies: from cardiac arrest and stroke to poisoning and fractures.'],
       ['Answer one question', 'One question picks the right path.'],
       ['Follow the steps', 'Rhythm, timer, voice guidance and logging.'],
     ],

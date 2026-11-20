@@ -21,9 +21,29 @@
 
 ---
 
+## 📸 Ekran Görüntüleri
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Kontrol paneli - ana sayfa" width="100%">
+</p>
+
+| Müdahale ekranı + canlı oturum paneli | Karar sorusu |
+|---|---|
+| <img src="docs/screenshots/action.png" alt="Müdahale ekranı"> | <img src="docs/screenshots/decision.png" alt="Karar sorusu"> |
+
+<p align="center">
+  <img src="docs/screenshots/mobile-home.jpg" alt="Mobil ana sayfa" width="240">
+  &nbsp;
+  <img src="docs/screenshots/mobile-action.jpg" alt="Mobil müdahale ekranı" width="240">
+  &nbsp;
+  <img src="docs/screenshots/mobile-session.jpg" alt="Mobil oturum paneli" width="240">
+</p>
+
+---
+
 ## 🇹🇷 Hakkında
 
-**PulseAid**, kanama, boğulma, yanık ve kalp krizi / bilinç kaybı gibi acil durumlarda kullanıcıyı
+**PulseAid**, kalp krizinden inmeye, zehirlenmeden kırığa **10 farklı acil durumda** kullanıcıyı
 basit sorularla doğru müdahaleye yönlendiren, adımları **büyük okunabilir metin**, **animasyon**,
 **ritim metronomu** ve **sesli asistan** ile anlatan, kurulum gerektirmeyen ve **çevrimdışı çalışan**
 bir web uygulamasıdır (PWA).
@@ -39,9 +59,9 @@ bir web uygulamasıdır (PWA).
 | 📋 | **Oturum yönetimi** | Geçen süre, ilerleme yüzdesi, adım kontrol listesi; sayfa yenilense bile korunur |
 | 🕒 | **Olay günlüğü & rapor** | Her adım, zamanlayıcı ve arama zaman damgasıyla kaydedilir; rapor kopyalanır / paylaşılır (konum linkiyle) |
 | ⚡ | **Hızlı CPR** | Ana sayfadan tek dokunuşla doğrudan kalp masajı adımlarına geçiş |
-| 🧭 | **Karar ağacı** | 4 acil durum kategorisi → durumu netleştiren tek soru → adım adım müdahale |
+| 🧭 | **Karar ağacı** | 10 acil durum → durumu netleştiren tek soru → 20 senaryo, 60+ adım |
 | 🫀 | **CPR metronomu** | Web Audio API ile dakikada 105 vuruş; görsel nabız ışığı + isteğe bağlı ses |
-| ⏱️ | **Zamanlayıcı** | Yanıkta 10–20 dk soğutma için ilerleme çubuklu geri sayım, bitince ses + titreşim |
+| ⏱️ | **Zamanlayıcı** | Yanık soğutma, nöbet süresi, buz uygulaması ve alerji takibi için ilerleme çubuklu geri sayım, bitince ses + titreşim |
 | 🔊 | **Sesli asistan** | Web Speech API ile adımları Türkçe / İngilizce okur |
 | 📍 | **GPS konumu** | Koordinatları gösterir, dokununca panoya kopyalar (112'ye konum bildirmek için) |
 | 📞 | **Tek dokunuşla arama** | Her ekranda sabit acil arama butonu (TR: 112, EN: 911) |
@@ -51,6 +71,21 @@ bir web uygulamasıdır (PWA).
 | ⌨️ | **Klavye kısayolları** | ← / → ile adımlar arasında geçiş |
 | 🌐 | **İki dil** | Türkçe ve İngilizce, anlık geçiş (çalışan zamanlayıcı korunur) |
 | 📱 | **Responsive & erişilebilir** | Mobil öncelikli tasarım, klavye odak halkaları, `prefers-reduced-motion` desteği |
+
+### 🚑 Kapsanan Acil Durumlar
+
+| Durum | Senaryolar |
+|---|---|
+| ❤️ Kalp Krizi / Bilinç Kaybı | Nefes alıyor · Nefes yok (CPR + metronom) |
+| 🫁 Boğulma / Nefes Darlığı | Öksürebiliyor · Bilinç kapalı |
+| 🩸 Kanama / Yaralanma | Fışkıran kanama (turnike) · Sızıntı |
+| 🧠 İnme (Felç) | Bilinci açık (HYKS/FAST testi) · Bilinç kapalı |
+| 💉 Ciddi Alerji (Anafilaksi) | Ciddi belirtiler (oto-enjektör) · Hafif belirtiler |
+| ⚡ Nöbet / Epilepsi | Kasılmalar sürüyor (süre ölçümü) · Nöbet bitti |
+| ☠️ Zehirlenme | Yutma · Gaz / duman soluma |
+| 🔥 Yanık / Haşlanma | Isı / alev · Kimyasal |
+| ☀️ Sıcak Çarpması | Bilinç bulanık · Bilinçli, halsiz |
+| 🦴 Kırık / Burkulma | Açık kırık · Kapalı kırık / burkulma |
 
 ### 🛠️ Teknolojiler
 
@@ -87,16 +122,18 @@ PulseAid/
 │   ├── HomeView.tsx · DecisionView.tsx · ActionView.tsx
 │   └── GeoChip.tsx · Icons.tsx
 ├── lib/
-│   ├── data.js           # TR/EN ilk yardım içerikleri (karar ağacı ve adımlar)
+│   ├── data.js           # TR/EN ilk yardım içerikleri (ilk 4 durum)
+│   ├── data-extra.js     # TR/EN ek durumlar (inme, nöbet, alerji, kırık, zehirlenme, sıcak çarpması)
 │   ├── content.ts        # Tipler ve içerik yardımcıları
 │   ├── i18n.ts           # Arayüz metinleri
 │   └── visuals.js        # Kategori ikonları ve adım animasyonları (SVG)
+├── docs/screenshots/      # README ekran görüntüleri
 └── public/               # sw.js, manifest.webmanifest, icon.svg
 ```
 
 ### ➕ Yeni bir acil durum eklemek
 
-`lib/data.js` içinde hem `tr` hem `en` altına aynı anahtarla bir `cases` girdisi ekleyin:
+`lib/data-extra.js` içinde hem `tr` hem `en` altına aynı anahtarla bir girdi ekleyin, sıralamayı `lib/content.ts` içindeki `ORDER` listesinden, rengini `CASE_THEME`'den belirleyin:
 
 ```js
 my_case: {
@@ -115,7 +152,7 @@ my_case: {
 ## 🇬🇧 About
 
 **PulseAid** is an install-free, offline-capable emergency response panel (Next.js PWA) that guides bystanders through first aid for
-bleeding, choking, burns and cardiac arrest. Each emergency starts with one clarifying question and
+10 emergencies: cardiac arrest, choking, bleeding, stroke, anaphylaxis, seizures, poisoning, burns, heatstroke and fractures. Each emergency starts with one clarifying question and
 then shows large, distance-readable steps with animations, a CPR metronome (105 BPM), countdown
 timers, voice read-out, GPS coordinates and a one-tap emergency call button. A live session panel tracks
 elapsed time, step checklist and a timestamped event log that can be copied or shared as a report for paramedics.
@@ -132,6 +169,12 @@ npm install && npm run dev
 ---
 
 ## 📝 Değişiklik Günlüğü
+
+### v3.1 — 10 acil durum
+- 6 yeni durum: **İnme, Nöbet/Epilepsi, Ciddi Alerji (Anafilaksi), Kırık/Burkulma, Zehirlenme, Sıcak Çarpması** (TR + EN)
+- Yeni animasyonlar: FAST yüz testi, baş koruma, adrenalin oto-enjektörü, atel, soğutma, temiz hava, uyarı
+- Hayati önceliğe göre sıralanmış kategori listesi ve renk kodları
+- README ekran görüntüleri
 
 ### v3.0 — Next.js müdahale paneli
 - Vite + vanilla JS → **Next.js 15 + React 19 + TypeScript**, tüm sayfalar statik üretiliyor
