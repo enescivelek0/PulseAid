@@ -4,14 +4,15 @@
 
 # PulseAid
 
-**Acil durumlarda adım adım, görsel ve sesli ilk yardım rehberi**
-*Step-by-step visual & voice first-aid guide for emergencies*
+**Acil müdahale paneli — adım adım, görsel ve sesli ilk yardım**
+*Emergency response panel — step-by-step visual & voice first aid*
 
 [![Live Demo](https://img.shields.io/badge/Canlı%20Demo-pulse--aid--pearl.vercel.app-E0414A?style=for-the-badge&logo=vercel&logoColor=white)](https://pulse-aid-pearl.vercel.app/)
 
-![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
-![JavaScript](https://img.shields.io/badge/Vanilla_JS-ES_Modules-F7DF1E?logo=javascript&logoColor=black)
 ![PWA](https://img.shields.io/badge/PWA-Offline_Ready-5A0FC8?logo=pwa&logoColor=white)
 
 ### 🔗 Canlı: **https://pulse-aid-pearl.vercel.app/**
@@ -34,6 +35,10 @@ bir web uygulamasıdır (PWA).
 
 | | Özellik | Açıklama |
 |---|---|---|
+| 🖥️ | **Müdahale paneli** | Sol menü (acil durumlar), orta çalışma alanı, sağda canlı oturum paneli (mobilde çekmece) |
+| 📋 | **Oturum yönetimi** | Geçen süre, ilerleme yüzdesi, adım kontrol listesi; sayfa yenilense bile korunur |
+| 🕒 | **Olay günlüğü & rapor** | Her adım, zamanlayıcı ve arama zaman damgasıyla kaydedilir; rapor kopyalanır / paylaşılır (konum linkiyle) |
+| ⚡ | **Hızlı CPR** | Ana sayfadan tek dokunuşla doğrudan kalp masajı adımlarına geçiş |
 | 🧭 | **Karar ağacı** | 4 acil durum kategorisi → durumu netleştiren tek soru → adım adım müdahale |
 | 🫀 | **CPR metronomu** | Web Audio API ile dakikada 105 vuruş; görsel nabız ışığı + isteğe bağlı ses |
 | ⏱️ | **Zamanlayıcı** | Yanıkta 10–20 dk soğutma için ilerleme çubuklu geri sayım, bitince ses + titreşim |
@@ -42,17 +47,17 @@ bir web uygulamasıdır (PWA).
 | 📞 | **Tek dokunuşla arama** | Her ekranda sabit acil arama butonu (TR: 112, EN: 911) |
 | 🔆 | **Ekran açık kalır** | Talimat ekranında Screen Wake Lock API ile ekran kararmaz |
 | 📴 | **Çevrimdışı** | Service Worker + Web App Manifest; ana ekrana eklenebilir |
-| 🔗 | **Paylaşılabilir URL** | Dil, durum ve adım URL'de tutulur: `?lang=tr&case=burns&choice=heat&step=1` |
+| 🔗 | **Paylaşılabilir URL** | Her senaryonun kendi adresi var: `/case/burns/heat` |
+| ⌨️ | **Klavye kısayolları** | ← / → ile adımlar arasında geçiş |
 | 🌐 | **İki dil** | Türkçe ve İngilizce, anlık geçiş (çalışan zamanlayıcı korunur) |
 | 📱 | **Responsive & erişilebilir** | Mobil öncelikli tasarım, klavye odak halkaları, `prefers-reduced-motion` desteği |
 
 ### 🛠️ Teknolojiler
 
-- **Vanilla JavaScript** (ES Modules) — framework yok, ~14 KB gzip
-- **Tailwind CSS 3** (PostCSS ile derlenir, CDN yok)
-- **Vite 5** — geliştirme sunucusu ve production build
-- **Web API'leri:** Web Audio, Web Speech, Geolocation, Screen Wake Lock, Clipboard, Vibration, Service Worker
-- **Vercel** — hosting & otomatik deploy
+- **Next.js 15** (App Router, statik üretim / SSG) + **React 19** + **TypeScript**
+- **Tailwind CSS 3** · `next/font` ile Manrope
+- **Web API'leri:** Web Audio, Web Speech, Geolocation, Screen Wake Lock, Clipboard, Web Share, Vibration, Service Worker
+- **Vercel** — hosting & her push'ta otomatik deploy
 
 ### 🚀 Kurulum
 
@@ -61,34 +66,37 @@ git clone https://github.com/enescivelek0/PulseAid.git
 cd PulseAid
 npm install
 npm run dev       # http://localhost:8080
-npm run build     # dist/ klasörüne production build
-npm run preview   # build'i yerelde önizle
+npm run build     # production build
+npm start         # build'i yerelde çalıştır
 ```
 
 ### 📁 Proje Yapısı
 
 ```
 PulseAid/
-├── index.html              # Uygulama kabuğu (header, footer, acil arama butonu)
-├── assets/
-│   ├── css/style.css       # Tailwind girişi + özel animasyonlar
-│   └── js/
-│       ├── app.js          # Durum yönetimi, yönlendirme, ekranlar, ses/zamanlayıcı/GPS
-│       ├── data.js         # TR/EN ilk yardım içerikleri (karar ağacı ve adımlar)
-│       └── visuals.js      # Kategori ikonları ve adım animasyonları (SVG)
-├── public/
-│   ├── sw.js               # Service Worker (çevrimdışı önbellek)
-│   ├── manifest.webmanifest
-│   └── icon.svg
-├── tailwind.config.js
-├── postcss.config.js
-├── vite.config.js
-└── vercel.json             # Önbellek başlıkları
+├── app/
+│   ├── layout.tsx                    # Metadata, font, Provider + AppShell
+│   ├── page.tsx                      # Kontrol paneli (ana sayfa)
+│   ├── case/[caseId]/page.tsx        # Karar sorusu
+│   ├── case/[caseId]/[choice]/page.tsx  # Müdahale ekranı
+│   └── globals.css                   # Tailwind + animasyonlar
+├── components/
+│   ├── AppProvider.tsx   # Dil, oturum (localStorage), GPS, çevrimiçi durumu
+│   ├── AppShell.tsx      # Sol menü, üst bar, oturum paneli / çekmece, acil arama
+│   ├── SessionPanel.tsx  # Süre, ilerleme, kontrol listesi, olay günlüğü, rapor
+│   ├── HomeView.tsx · DecisionView.tsx · ActionView.tsx
+│   └── GeoChip.tsx · Icons.tsx
+├── lib/
+│   ├── data.js           # TR/EN ilk yardım içerikleri (karar ağacı ve adımlar)
+│   ├── content.ts        # Tipler ve içerik yardımcıları
+│   ├── i18n.ts           # Arayüz metinleri
+│   └── visuals.js        # Kategori ikonları ve adım animasyonları (SVG)
+└── public/               # sw.js, manifest.webmanifest, icon.svg
 ```
 
 ### ➕ Yeni bir acil durum eklemek
 
-`assets/js/data.js` içinde hem `tr` hem `en` altına aynı anahtarla bir `cases` girdisi ekleyin:
+`lib/data.js` içinde hem `tr` hem `en` altına aynı anahtarla bir `cases` girdisi ekleyin:
 
 ```js
 my_case: {
@@ -106,10 +114,11 @@ my_case: {
 
 ## 🇬🇧 About
 
-**PulseAid** is an install-free, offline-capable PWA that guides bystanders through first aid for
+**PulseAid** is an install-free, offline-capable emergency response panel (Next.js PWA) that guides bystanders through first aid for
 bleeding, choking, burns and cardiac arrest. Each emergency starts with one clarifying question and
 then shows large, distance-readable steps with animations, a CPR metronome (105 BPM), countdown
-timers, voice read-out, GPS coordinates and a one-tap emergency call button.
+timers, voice read-out, GPS coordinates and a one-tap emergency call button. A live session panel tracks
+elapsed time, step checklist and a timestamped event log that can be copied or shared as a report for paramedics.
 
 **Live:** https://pulse-aid-pearl.vercel.app/
 
@@ -122,7 +131,16 @@ npm install && npm run dev
 
 ---
 
-## 📝 Değişiklik Günlüğü (v2.0)
+## 📝 Değişiklik Günlüğü
+
+### v3.0 — Next.js müdahale paneli
+- Vite + vanilla JS → **Next.js 15 + React 19 + TypeScript**, tüm sayfalar statik üretiliyor
+- Panel arayüzü: sol menü, orta çalışma alanı, sağda canlı **müdahale oturumu** paneli
+- Oturum yönetimi: süre, ilerleme, adım kontrol listesi, zaman damgalı olay günlüğü, rapor kopyala / paylaş
+- Yeni ana sayfa: hero, 112 ve **Hızlı CPR** butonları, renk kodlu kategori kartları, "nasıl çalışır" bölümü
+- Her senaryoya ayrı URL, klavye kısayolları, mobilde talimat önce gelecek şekilde düzen
+
+### v2.0
 
 - Tailwind CDN kaldırıldı → derlenmiş Tailwind (daha hızlı yükleme, konsol uyarısı yok, gerçek çevrimdışı destek)
 - Service Worker yeniden yazıldı: production build'de var olmayan dosyaları önbelleğe almaya çalıştığı için kurulamıyordu; artık sayfalar için network-first, varlıklar için stale-while-revalidate

@@ -1,12 +1,13 @@
 {
   "name": "pulse-aid",
-  "version": "2.0.0",
-  "type": "module",
+  "version": "3.0.0",
   "description": "Digital First Aid Guide (PWA)",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev -p 8080",
+    "build": "next build",
+    "preview": "vite preview",
+    "start": "next start",
+    "lint": "next lint"
   },
   "keywords": [
     "firstaid",
@@ -16,10 +17,17 @@
   "author": "Enes Civelek",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
-    "vite": "^5.2.0"
+    "typescript": "^5.9.3"
   },
-  "homepage": "https://pulse-aid-pearl.vercel.app/"
+  "homepage": "https://pulse-aid-pearl.vercel.app/",
+  "dependencies": {
+    "next": "^15.5.29",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
 }

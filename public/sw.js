@@ -1,7 +1,7 @@
 // PulseAid service worker
 // - Navigations: network-first (fresh deploys), cached shell as offline fallback
 // - Same-origin assets & Google Fonts: stale-while-revalidate
-const CACHE = 'pulseaid-v2';
+const CACHE = 'pulseaid-v3';
 const SHELL = ['/', '/manifest.webmanifest', '/icon.svg'];
 
 self.addEventListener('install', (event) => {
@@ -26,10 +26,10 @@ self.addEventListener('fetch', (event) => {
       fetch(request)
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put('/', copy));
+          caches.open(CACHE).then((c) => c.put(request, copy));
           return res;
         })
-        .catch(() => caches.match('/'))
+        .catch(async () => (await caches.match(request)) || caches.match('/'))
     );
     return;
   }
